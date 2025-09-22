@@ -1,0 +1,7 @@
+# compiled output
+/dist
+/specs
+/tmp
+
+# dependencies
+/node_modules

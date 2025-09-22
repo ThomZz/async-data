@@ -1,0 +1,41 @@
+{
+  "name": "@thomzz/async-data",
+  "version": "0.0.0",
+  "description": "A lightweight, dependency-free utility for managing and typing asynchronous data states.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.app.json",
+    "release":  "tsc -p tsconfig.app.json --sourceMap false && npm publish --provenance --access public",
+    "test": "jest --watch=false --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomZz/async-data.git"
+  },
+  "keywords": [
+    "async-data",
+    "state",
+    "loading",
+    "asynchronous",
+    "rxjs"
+  ],
+  "author": "Thomas-Louis Simard",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ThomZz/async-data/issues"
+  },
+  "homepage": "https://github.com/ThomZz/async-data#readme",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.1.3",
+    "jest-environment-jsdom": "^30.1.2",
+    "rxjs": "^7.8.2",
+    "ts-jest": "^29.4.4",
+    "typescript": "^5.9.2"
+  }
+}
