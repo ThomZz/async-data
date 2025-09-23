@@ -1,4 +1,4 @@
-import { Override } from "./utils/types";
+import { Override } from './utils/types';
 
 /**
  * Represents the state of any asynchronous data, including loading, fulfilled, and rejected states.
@@ -72,7 +72,9 @@ export namespace AsyncData {
     /**
      * Checks if the AsyncData is in the rejected state.
      */
-    export function isRejected<TData = unknown, TError = Error, T extends AsyncData<TData, TError> = AsyncData<TData, TError>>(data: T): data is RejectedAsyncData<TData, TError, T> {
+    export function isRejected<TData = unknown, TError = Error, T extends AsyncData<TData, TError> = AsyncData<TData, TError>>(
+        data: T
+    ): data is RejectedAsyncData<TData, TError, T> {
         return data.state === 'rejected';
     }
 
@@ -88,46 +90,20 @@ export namespace AsyncData {
      * This is particularly useful when you want to maintain the entire state of an AsyncData object,
      * but need to change the data it holds, for example, when transforming/selecting data for different usages.
      */
-    export function fork<TData, TError, TForkData>(
-        source: RejectedAsyncData<TData, TError>,
+    export function fork<TData = unknown, TError = Error, TForkData = unknown, T extends AsyncData<TData, TError> = AsyncData<TData, TError>>(
+        source: T,
         data: TForkData
-    ): RejectedAsyncData<TForkData, TError>;
-    export function fork<TData, TForkData>(
-        source: PendingAsyncData<TData>,
-        data: TForkData
-    ): PendingAsyncData<TForkData>;
-    export function fork<TData, TForkData>(
-        source: FulfilledAsyncData<TData>,
-        data: TForkData
-    ): FulfilledAsyncData<TForkData>;
-    export function fork<TData = unknown, TError = Error, TForkData = unknown>(
-        source: AsyncData<TData, TError>,
-        data: TForkData
-    ): AsyncData<TForkData, TError> {
-        if (AsyncData.isRejected<TData, TError>(source)) {
-            return {
-                data,
-                error: source.error,
-                isLoading: source.isLoading,
-                state: 'rejected'
-            };
-        } else if (AsyncData.isPending<TData>(source)) {
-            return {
-                data,
-                isLoading: source.isLoading,
-                state: 'pending'
-            };
-        } else if (AsyncData.isFulfilled<TData>(source)) {
-            return {
-                data,
-                isLoading: source.isLoading,
-                state: 'fulfilled'
-            };
-        }
-        return _throw('[async-data] Cannot fork the provided AsyncData Object. Unsupported state.');
-    }
-}
+    ): T extends RejectedAsyncData<TData, TError>
+        ? Override<RejectedAsyncData<TData, TError, T>, { data?: TForkData }>
+        : T extends PendingAsyncData<TData>
+        ? Override<PendingAsyncData<TData, T>, { data?: TForkData }>
+        : T extends FulfilledAsyncData<TData>
+        ? Override<FulfilledAsyncData<TData, T>, { data: TForkData }>
+        : never {
 
-function _throw(message: string): never {
-    throw new Error(message);
+        if (!['pending', 'rejected', 'fulfilled'].includes(source.state)) {
+            throw new Error('Cannot fork the provided AsyncData Object. Unsupported state.');
+        }
+        return { ...source, data } as ReturnType<typeof fork>;
+    }
 }

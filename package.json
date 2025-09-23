@@ -2,7 +2,7 @@
   "name": "@thomzz/async-data",
   "version": "0.0.0",
   "description": "A lightweight, dependency-free utility for managing and typing asynchronous data states.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc -p tsconfig.app.json",
     "release":  "tsc -p tsconfig.app.json --sourceMap false && npm publish --provenance --access public",
