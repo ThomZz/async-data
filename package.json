@@ -2,10 +2,21 @@
   "name": "@thomzz/async-data",
   "version": "0.0.0",
   "description": "A lightweight, dependency-free utility for managing and typing asynchronous data states.",
-  "main": "dist/index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
   "scripts": {
-    "build": "tsc -p tsconfig.app.json",
-    "release":  "tsc -p tsconfig.app.json --sourceMap false && npm publish --provenance --access public",
+    "build": "tsc -p tsconfig.app.json --sourceMap true",
+    "build:esm": "tsc -p tsconfig.app.json",
+    "build:commonjs": "tsc -p tsconfig.app.json --module commonjs --outDir dist/cjs",
+    "release":  "npm run build:esm && npm run build:commonjs && npm publish --provenance --access public",
     "test": "jest --watch=false --runInBand"
   },
   "repository": {

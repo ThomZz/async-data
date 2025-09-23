@@ -2,11 +2,12 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
         "rootDir": "./src",
-        "sourceMap": true,
+        "sourceMap": false,
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "declaration": true,
+        "declarationDir": "./dist/types",
         "importHelpers": true,
         "target": "esnext",
         "module": "esnext",
